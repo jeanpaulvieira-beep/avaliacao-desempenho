@@ -1383,16 +1383,30 @@
             },
 
             save() {
+                const name = document.getElementById('empName').value.trim();
+                const role = document.getElementById('empRole').value.trim();
+                const department = document.getElementById('empDepartment').value;
+                const email = document.getElementById('empEmail').value.trim();
+                const admission = document.getElementById('empAdmission').value;
+
+                if (!name || !role || !department || !email || !admission) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+
+                const preview = document.getElementById('photoPreview');
+                const hasPhoto = preview.style.display !== 'none' && preview.src && preview.src.startsWith('data:');
+
                 const employees = Storage.getEmployees();
                 
                 const employee = {
                     id: Date.now().toString(),
-                    name: document.getElementById('empName').value,
-                    role: document.getElementById('empRole').value,
-                    department: document.getElementById('empDepartment').value,
-                    email: document.getElementById('empEmail').value,
-                    admissionDate: document.getElementById('empAdmission').value,
-                    photo: document.getElementById('photoPreview').src || null
+                    name: name,
+                    role: role,
+                    department: department,
+                    email: email,
+                    admissionDate: admission,
+                    photo: hasPhoto ? preview.src : null
                 };
 
                 employees.push(employee);
